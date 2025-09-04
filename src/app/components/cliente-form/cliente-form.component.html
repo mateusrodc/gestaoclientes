@@ -1,0 +1,154 @@
+<form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+  <button class="btn btn-success" (click)="voltar()">Voltar</button>
+  <h2>Dados Pessoais</h2>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" id="nome" formControlName="nome" required>
+        <div *ngIf="f['nome'].touched && f['nome'].invalid" class="text-danger">
+          <small *ngIf="f['nome'].errors?.['required']">Nome é obrigatório.</small>
+          <small *ngIf="f['nome'].errors?.['minlength']">Mínimo de 3 caracteres.</small>
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="fantasia">Fantasia</label>
+      <input type="text" class="form-control" id="fantasia" formControlName="fantasia">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="tipo_pessoa">Tipo de Pessoa</label>
+      <select class="form-control" id="tipo_pessoa" formControlName="tipo_pessoa" required>
+        <option value="Fisica">Física</option>
+        <option value="Juridica">Jurídica</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="cpf_cnpj">CPF / CNPJ</label>
+      <input type="text" class="form-control" id="cpf_cnpj" formControlName="cpf_cnpj" required>
+        <div *ngIf="f['cpf_cnpj'].touched && f['cpf_cnpj'].invalid" class="text-danger">
+          <small *ngIf="f['cpf_cnpj'].errors?.['required']">CPF ou CNPJ é obrigatório.</small>
+          <small *ngIf="f['cpf_cnpj'].errors?.['pattern']">Deve ter 11 ou 14 dígitos numéricos.</small>
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="rg_ie">RG / Inscrição Estadual</label>
+      <input type="text" class="form-control" id="rg_ie" formControlName="rg_ie">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="tipo_regime_apuracao">Tipo de Regime de Apuração</label>
+      <input type="text" class="form-control" id="tipo_regime_apuracao" formControlName="tipo_regime_apuracao">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="tipo_preco_venda">Tipo de Preço de Venda</label>
+      <input type="text" class="form-control" id="tipo_preco_venda" formControlName="tipo_preco_venda">
+    </div>
+    <input type="hidden" formControlName="tipo_cadastro">
+    <input type="hidden" formControlName="cadastro_tipo_id">
+  </div>
+
+  <hr>
+  <h2>Endereço Padrão</h2>
+  <div formGroupName="cadastro_endereco_padrao">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="descricao_endereco">Descrição do Endereço</label>
+        <input type="text" class="form-control" id="descricao_endereco" formControlName="descricao">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label for="endereco">Endereço</label>
+        <input type="text" class="form-control" id="endereco" formControlName="endereco" required>
+            <div *ngIf="clienteForm.get('cadastro_endereco_padrao.endereco')?.touched &&
+                clienteForm.get('cadastro_endereco_padrao.endereco')?.invalid"
+                class="text-danger">
+              <small>Endereço é obrigatório.</small>
+            </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="endereco_numero">Número</label>
+        <input type="text" class="form-control" id="endereco_numero" formControlName="endereco_numero">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="endereco_bairro">Bairro</label>
+        <input type="text" class="form-control" id="endereco_bairro" formControlName="endereco_bairro">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="endereco_cep">CEP</label>
+        <input type="text" class="form-control" id="endereco_cep" formControlName="endereco_cep" required>
+        <div *ngIf="clienteForm.get('cadastro_endereco_padrao.endereco_cep')?.touched &&
+            clienteForm.get('cadastro_endereco_padrao.endereco_cep')?.invalid"
+            class="text-danger">
+            <small>CEP é obrigatório.</small>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="endereco_municipio_codigo_ibge">Codigo IBGE</label>
+        <input type="text" class="form-control" id="endereco_municipio_codigo_ibge" formControlName="endereco_municipio_codigo_ibge" required>
+        <div *ngIf="clienteForm.get('cadastro_endereco_padrao.endereco_municipio_codigo_ibge')?.touched &&
+            clienteForm.get('cadastro_endereco_padrao.endereco_municipio_codigo_ibge')?.invalid"
+            class="text-danger">
+            <small>Codigo IBGE é obrigatório.</small>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="ie_produtor_rural">IE Produtor Rural</label>
+        <input type="text" class="form-control" id="ie_produtor_rural" formControlName="ie_produtor_rural">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group form-check col-md-6">
+        <input type="checkbox" class="form-check-input" id="principal" formControlName="principal">
+        <label class="form-check-label" for="principal">Endereço Principal</label>
+      </div>
+      <div class="form-group form-check col-md-6">
+        <input type="checkbox" class="form-check-input" id="cobranca" formControlName="cobranca">
+        <label class="form-check-label" for="cobranca">Endereço de Cobrança</label>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <h2>Contato Padrão</h2>
+  <div formGroupName="cadastro_contato_padrao">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="descricao_contato">Descrição do Contato</label>
+        <input type="text" class="form-control" id="descricao_contato" formControlName="descricao">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="fone">Telefone</label>
+        <input type="tel" class="form-control" id="fone" formControlName="fone">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group form-check col-md-3">
+        <input type="checkbox" class="form-check-input" id="enviar_orcamento" formControlName="enviar_orcamento">
+        <label class="form-check-label" for="enviar_orcamento">Enviar Orçamento</label>
+      </div>
+      <div class="form-group form-check col-md-3">
+        <input type="checkbox" class="form-check-input" id="enviar_nf" formControlName="enviar_nf">
+        <label class="form-check-label" for="enviar_nf">Enviar NF</label>
+      </div>
+      <div class="form-group form-check col-md-3">
+        <input type="checkbox" class="form-check-input" id="enviar_boleto" formControlName="enviar_boleto">
+        <label class="form-check-label" for="enviar_boleto">Enviar Boleto</label>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-4" [disabled]="!clienteForm.valid">Salvar Cliente</button>
+</form>

@@ -1,0 +1,17 @@
+<body data-gr-c-s-loaded="true">
+  <form #loginForm="ngForm" (ngSubmit)="login()">
+    
+    <h1>Entrar</h1>
+
+    <label for="username" class="">Usuário</label>
+    <input type="email" id="email" placeholder="E-mail"
+    name="email" required [(ngModel)]="model.email">
+
+    <label for="password" class="">Senha</label>
+    <input type="password" id="senha" placeholder="Senha"
+    name="password" required [(ngModel)]="model.senha">
+
+    <button [disabled]="!loginForm.valid" type="submit">Entrar</button>
+  </form>  
+  
+</body>

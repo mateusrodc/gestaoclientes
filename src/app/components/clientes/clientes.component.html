@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Bem vindo</h1>
+</div>
+<div class="d-flex justify-content-start mb-3">
+  <button class="btn btn-success me-3" (click)="novoCliente()">Cadastrar</button>
+  <button class="btn btn-danger" (click)="sair()">Sair</button>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome / Fantasia</th>
+        <th>Tipo</th>
+        <th>Endereço</th>
+        <th>Bairro</th>
+        <th>Cidade / UF</th>
+        <th>Última Alteração</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of listaClientes">
+        <td>{{ cliente.id }}</td>
+        <td>
+          {{ cliente.nome }}
+          <br>
+          <small class="text-muted">{{ cliente.fantasia }}</small>
+        </td>
+        <td>{{ cliente.tipo_pessoa }}</td>
+        <td>{{ cliente.cadastro_endereco_padrao?.endereco }}</td>
+        <td>{{ cliente.cadastro_endereco_padrao?.endereco_bairro }}</td>
+        <td>
+          {{ cliente.cadastro_endereco_padrao?.endereco_municipio_descricao }} / {{ cliente.cadastro_endereco_padrao?.endereco_uf_sigla }}
+        </td>
+        <td>
+          {{ cliente.dt_ultima_alteracao | date:'dd/MM/yyyy HH:mm' }}
+          <br>
+          <small class="text-muted">{{ cliente.usuario_ultima_alteracao_nome }}</small>
+        </td>
+        <td>
+          <span *ngIf="cliente.ativo" class="badge bg-success">Ativo</span>
+          <span *ngIf="!cliente.ativo" class="badge bg-danger">Inativo</span>
+        </td>
+        <td>
+          <button class="btn btn-warning mr-3 ml-3" (click)="editarCliente(cliente)">
+            Editar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!listaClientes || listaClientes.length === 0">
+      <tr>
+        <td colspan="8" class="text-center">Nenhum cliente encontrado.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="!listaClientes || listaClientes.length === 0" class="text-center">
+    Nenhum cliente encontrado.
+  </p>
+</div>
+<div class="pagination-container">
+  <button (click)="prevPage()" [disabled]="!paginacao || paginacao.offset === 0">Anterior</button>
+
+  <span class="pagination-info" *ngIf="paginacao">
+    Página {{ (paginacao.offset / paginacao.limit) + 1 }}
+    de {{ Math.ceil(paginacao.total_registros / paginacao.limit) }}
+  </span>
+
+  <button (click)="nextPage()" 
+    [disabled]="!paginacao || (paginacao.offset + paginacao.limit >= paginacao.total_registros)">
+    Próxima
+  </button>
+</div>
+
